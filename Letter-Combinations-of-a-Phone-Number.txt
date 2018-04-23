@@ -1,0 +1,59 @@
+#include<iostream>
+#include<string>
+#include<map>
+#include<vector>
+#include<math.h>
+using namespace std;
+vector<string>letterCombinations(string digits);
+void ConbineEveryletter(string digits,string dict[],int level,string str,vector<string> &res);
+int main()
+{
+	/*int n = 0;
+	cin >> n;
+	int max = pow(10,n);
+	for (int i = 0; i < max; i++)
+		cout << i << " ";*/
+	
+	string digits;
+	cin >> digits;
+	vector<string> res;
+	res = letterCombinations(digits);
+	for (int i = 0; i < res.size(); ++i)
+	{
+		cout << res[i] << " ";
+	}
+	system("pause");
+	return 0;
+	
+}
+
+vector<string>letterCombinations(string digits)
+{
+	vector<string> res;
+	if (digits.size() == 0)
+	{
+		return res;
+	}
+	string dict[] = { "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+	int level = 0;//record every rank
+	ConbineEveryletter(digits, dict, level,"", res);
+	return res;
+}
+void ConbineEveryletter(string digits, string dict[], int level,string str, vector<string> &res)//  vector<> 做参数的时候一定记得‘&res’中的&
+{
+	if (level == digits.size())  //注意if 和 else.否则到叶子节点之后会继续走下一句创建新节点，导致指针错误
+	{
+		res.push_back(str);
+		
+	}
+	else{
+		string list = dict[digits[level] - '2'];
+		for (int i = 0; i < list.size(); ++i)
+		{
+			str.push_back(list[i]);
+			ConbineEveryletter(digits, dict, level + 1, str, res);
+			str.pop_back();
+		}
+	}
+	
+}
